@@ -1,3 +1,8 @@
+//constructor: inserts elements, fills extras, creates tree
+//q: queries sum (or whatever operator) of elements in range [a, b]
+//replace: replaces element
+//update: increases element
+//print: for debugging
 template <class T = int, T initial = 0, class functor = plus<T>>
 class segtree{
 	public:
@@ -36,7 +41,6 @@ class segtree{
 		replace(i, nodes[size + i] + val);
 	}
 	void print(){
-		//debugging purposes
 		for(int i = 0; i < 2*size; i++){
 			cout << i << " : " << nodes[i] << "\n";
 		}
