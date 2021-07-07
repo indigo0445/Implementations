@@ -1,24 +1,25 @@
 //constructor: inserts elements, fills extras, creates tree
 //q: queries sum (or whatever operator) of elements in range [a, b]
-//replace: replaces element
+//replace: replaces element, and recalculates its parents
 //update: increases element
 //print: for debugging
+
+//if segtree is used without template, segtree will be a sum query tree
 template <class T = int, T initial = 0, class functor = plus<T>>
 class segtree{
 	public:
 	functor op;
-	//node i has parents i/2
-	//node i has children 2i, 2i+1
-	//original array starts at nodes[size]
 	vector<T> nodes;
 	int size;
+	//node i has parent i/2
+	//node i has children 2i, 2i+1
+	//original array starts at nodes[size]
 	segtree(vector<T> v){
 		int s = v.size();
 		int N = ceil(log2(s));
-		size = 1 << N;
+		size = pow(2, N);
 		nodes.resize(2*size);
 		for(int i = 0; i < s; i++) nodes[size + i] = v[i];
-		//fill in gaps from resizing array
 		for(int i = size+s; i < 2*size; i++) nodes[i] = initial;
 		for(int i = size-1; i >= 1; i--) nodes[i] = op(nodes[2*i], nodes[2*i+1]);
 	}
