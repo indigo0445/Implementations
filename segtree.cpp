@@ -15,9 +15,7 @@ class segtree{
 		for(int i = 0; i < s; i++) nodes[size + i] = v[i];
 		//fill in gaps from resizing array
 		for(int i = size+s; i < 2*size; i++) nodes[i] = initial;
-		for(int i = size-1; i >= 1; i--){
-			nodes[i] = op(nodes[2*i], nodes[2*i+1]);
-		}
+		for(int i = size-1; i >= 1; i--) nodes[i] = op(nodes[2*i], nodes[2*i+1]);
 	}
 	T q(int a, int b){
 		T ans = initial;
