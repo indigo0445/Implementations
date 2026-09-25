@@ -8,28 +8,28 @@ long long binPow(long long a, int b){
     return ans;
 }
 
-using arr2 = array<int, 2>;
-const int INF = 1e9;
-int* dijkstra(int vertices, vector<vector<arr2>> graph, int source){
-    int* minDist = new int[vertices];
-    fill(minDist, minDist+vertices, INF);
-    minDist[source] = 0;
-    bool* visited = new bool[vertices]();
-    priority_queue<arr2, vector<arr2>, greater<arr2>> pq;
+std::vector<long long> dijkstra(std::vector<std::vector<std::array<int, 2>>>& edges, int source) {
+    constexpr long long INF = 1e18;
+    std::vector<long long> dists(n, INF);
+    dists[source] = 0;
+    std::priority_queue<std::pair<long long, int>,
+                        std::vector<std::pair<long long, int>>,
+                        std::greater<>> pq; // {len, x}
     pq.push({0, source});
-    while(!pq.empty()){
-        auto [currentDist, currentV] = pq.top();
+
+    while (!pq.empty()) {
+        auto [len, x] = pq.top();
         pq.pop();
-        if(!visited[currentV]){
-            visited[currentV] = true;
-            for(auto& [adj, dist] : graph[currentV]){
-                if(currentDist + dist < minDist[adj]){
-                    minDist[adj] = currentDist + dist;
-                    pq.push({minDist[adj], adj});
-                }
+        if (len != dists[x]) continue;
+
+        for (auto [c, b] : edges[x]) {
+            long long new_len = len + c;
+            if (new_len < dists[b]) {
+                dists[b] = new_len;
+                pq.push({new_len, b});
             }
         }
     }
-    delete[] visited;
-    return minDist;
+
+    return dists;
 }
